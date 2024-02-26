@@ -10,8 +10,7 @@ param(
     [string]$DotnetCli
 )
 
-function Find-DotnetCli()
-{
+function Find-DotnetCli() {
     [string] $DotnetCli = ''
     $dotnetCmd = Get-Command dotnet
     return $dotnetCmd.Path
@@ -44,17 +43,15 @@ $assemblyPaths = (
 # copy artifacts
 New-Item -Type Directory out -ErrorAction SilentlyContinue > $null
 Copy-Item -Rec -Force src\platyPS out
-foreach($assemblyPath in $assemblyPaths)
-{
-	$assemblyFileName = [System.IO.Path]::GetFileName($assemblyPath)
-	$outputPath = "out\platyPS\$assemblyFileName"
-	if ((-not (Test-Path $outputPath)) -or
-		(Test-Path $outputPath -OlderThan (Get-ChildItem $assemblyPath).LastWriteTime))
-	{
-		Copy-Item $assemblyPath out\platyPS
-	} else {
-		Write-Host -Foreground Yellow "Skip $assemblyFileName copying"
-	}
+foreach ($assemblyPath in $assemblyPaths) {
+    $assemblyFileName = [System.IO.Path]::GetFileName($assemblyPath)
+    $outputPath = "out\platyPS\$assemblyFileName"
+    if ((-not (Test-Path $outputPath)) -or
+		(Test-Path $outputPath -OlderThan (Get-ChildItem $assemblyPath).LastWriteTime)) {
+        Copy-Item $assemblyPath out\platyPS
+    } else {
+        Write-Host -Foreground Yellow "Skip $assemblyFileName copying"
+    }
 }
 
 # copy schema file and docs
@@ -67,8 +64,7 @@ New-Item -Type Directory out\platyPS\templates -ErrorAction SilentlyContinue > $
 Copy-Item .\templates\* out\platyPS\templates\
 
 # put the right module version
-if ($env:APPVEYOR_REPO_TAG_NAME)
-{
+if ($env:APPVEYOR_REPO_TAG_NAME) {
     $manifest = cat -raw out\platyPS\platyPS.psd1
     $manifest = $manifest -replace "ModuleVersion = '0.0.1'", "ModuleVersion = '$($env:APPVEYOR_REPO_TAG_NAME)'"
     Set-Content -Value $manifest -Path out\platyPS\platyPS.psd1 -Encoding Ascii
