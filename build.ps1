@@ -10,28 +10,12 @@ param(
     [string]$DotnetCli
 )
 
-function Find-DotnetCli() {
-    [string] $DotnetCli = ''
-    $dotnetCmd = Get-Command dotnet
-    return $dotnetCmd.Path
-}
-
-
-if (-not $DotnetCli) {
-    $DotnetCli = Find-DotnetCli
-}
-
+$DotnetCli = if ([string]::IsNullOrEmpty($DotnetCli)) { (Get-Command -Name dotnet).Path } else { $DotnetCli }
 if (-not $DotnetCli) {
     throw "dotnet cli is not found in PATH, install it from https://docs.microsoft.com/en-us/dotnet/core/tools"
-} else {
-    Write-Host "Using dotnet from $DotnetCli"
 }
 
-if (Get-Variable -Name IsCoreClr -ValueOnly -ErrorAction SilentlyContinue) {
-    $framework = 'netstandard1.6'
-} else {
-    $framework = 'net451'
-}
+$framework = if ($IsCoreCLR) { 'netstandard1.6' } else { 'net451' }
 
 & $DotnetCli publish ./src/Markdown.MAML -f $framework --output=$pwd/publish /p:Configuration=$Configuration
 
@@ -41,8 +25,8 @@ $assemblyPaths = (
 )
 
 # copy artifacts
-New-Item -Type Directory out -ErrorAction SilentlyContinue > $null
-Copy-Item -Rec -Force src\platyPS out
+$null = New-Item -Name out -Type Directory -ErrorAction SilentlyContinue
+Copy-Item -Path src\platyPS -Destination out -Recurse -Force
 foreach ($assemblyPath in $assemblyPaths) {
     $assemblyFileName = [System.IO.Path]::GetFileName($assemblyPath)
     $outputPath = "out\platyPS\$assemblyFileName"
@@ -65,18 +49,22 @@ Copy-Item .\templates\* out\platyPS\templates\
 
 # put the right module version
 if ($env:APPVEYOR_REPO_TAG_NAME) {
-    $manifest = cat -raw out\platyPS\platyPS.psd1
+    $manifest = Get-Content -Path out\platyPS\platyPS.psd1 -Raw
     $manifest = $manifest -replace "ModuleVersion = '0.0.1'", "ModuleVersion = '$($env:APPVEYOR_REPO_TAG_NAME)'"
     Set-Content -Value $manifest -Path out\platyPS\platyPS.psd1 -Encoding Ascii
 }
 
-# dogfooding: generate help for the module
-Remove-Module platyPS -ErrorAction SilentlyContinue
-Import-Module $pwd\out\platyPS
-
 if (-not $SkipDocs) {
-    New-ExternalHelp docs -OutputPath out\platyPS\en-US -Force
-    # reload module, to apply generated help
-    Import-Module $pwd\out\platyPS -Force
+    # dogfooding: generate help for the module
+    $jobParams = @{
+        Name         = "Build platyPS Docs - $(Get-Date -Format yyyy-MM-dd_HH-mm-ss)"
+        ArgumentList = "$PSScriptRoot\out\platyPS", "$PSScriptRoot\docs", "$PSScriptRoot\out\platyPS\en-US"
+        ScriptBlock  = {
+            param([string]$modulePath, [string]$docsSource, [string]$docsOutput)
+            $ErrorActionPreference = 'Stop'
+            Import-Module $modulePath
+            New-ExternalHelp -Path $docsSource -OutputPath $docsOutput
+        }
+    }
+    Start-Job @jobParams | Receive-Job -Wait -AutoRemoveJob -ErrorAction Stop
 }
-
