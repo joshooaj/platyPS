@@ -197,7 +197,7 @@ namespace Markdown.MAML.Transformer
             {
                 Report("Schema exception. This can occur when there are multiple code blocks in one example. " + headingException.Message);
 
-                throw headingException;
+                throw;
             }
             
         }

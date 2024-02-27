@@ -282,8 +282,8 @@ namespace Markdown.MAML.Test.Renderer
 
         private static Deserializer CreateDeserializer()
         {
-            return new DeserializerBuilder()
-                            .WithNamingConvention(new CamelCaseNamingConvention())
+            return (Deserializer)new DeserializerBuilder()
+                            .WithNamingConvention(CamelCaseNamingConvention.Instance)
                             .Build();
         }
     }
