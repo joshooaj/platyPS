@@ -7,15 +7,21 @@ param(
     [ValidateSet('Debug', 'Release')]
     $Configuration = "Debug",
     [switch]$SkipDocs,
-    [string]$DotnetCli
+    [string]$DotnetCli,
+    [string]$BuildVersion = $env:APPVEYOR_REPO_TAG_NAME
 )
+
+if (-not $IsCoreCLR) {
+    throw "This fork of platyPS is not compatible with .NET Framework."
+}
 
 $DotnetCli = if ([string]::IsNullOrEmpty($DotnetCli)) { (Get-Command -Name dotnet).Path } else { $DotnetCli }
 if (-not $DotnetCli) {
     throw "dotnet cli is not found in PATH, install it from https://docs.microsoft.com/en-us/dotnet/core/tools"
 }
 
-$framework = if ($IsCoreCLR) { 'netstandard1.6' } else { 'net451' }
+
+$framework = 'net8.0'
 
 & $DotnetCli publish ./src/Markdown.MAML -f $framework --output=$pwd/publish /p:Configuration=$Configuration
 
@@ -48,10 +54,10 @@ New-Item -Type Directory out\platyPS\templates -ErrorAction SilentlyContinue > $
 Copy-Item .\templates\* out\platyPS\templates\
 
 # put the right module version
-if ($env:APPVEYOR_REPO_TAG_NAME) {
+if ($ModuleVersion) {
     $manifest = Get-Content -Path out\platyPS\platyPS.psd1 -Raw
-    $manifest = $manifest -replace "ModuleVersion = '0.0.1'", "ModuleVersion = '$($env:APPVEYOR_REPO_TAG_NAME)'"
-    Set-Content -Value $manifest -Path out\platyPS\platyPS.psd1 -Encoding Ascii
+    $manifest = $manifest -replace "ModuleVersion = '0.0.1'", "ModuleVersion = '$ModuleVersion'"
+    Set-Content -Value $manifest -Path $PSScriptRoot\out\platyPS\platyPS.psd1 -Encoding Ascii
 }
 
 if (-not $SkipDocs) {
