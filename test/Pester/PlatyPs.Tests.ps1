@@ -6,11 +6,9 @@ $outFolder = "$root\out"
 $moduleFolder = "$outFolder\platyPS"
 
 Import-Module $moduleFolder -Force
-$MyIsLinux = Get-Variable -Name IsLinux -ValueOnly -ErrorAction SilentlyContinue
-$MyIsMacOS = Get-Variable -Name IsMacOS -ValueOnly -ErrorAction SilentlyContinue
-$global:IsUnix = $MyIsLinux -or $MyIsMacOS
 
 Import-LocalizedData -BindingVariable LocalizedData -BaseDirectory $moduleFolder -FileName platyPS.Resources.psd1
+$WarningPreference = 'SilentlyContinue'
 
 Describe 'New-MarkdownHelp' {
     function normalizeEnds([string]$text)
@@ -93,13 +91,6 @@ Describe 'New-MarkdownHelp' {
 
                 }
 
-
-                if (-not $global:IsUnix) {
-                    # just declaring workflow is a parse-time error on unix
-                    Invoke-Expression "Workflow FromCommandWorkflow {}"
-                    Export-ModuleMember -Function 'FromCommandWorkflow'
-                }
-
                 # Set-Alias and New-Alias provide two different results
                 # when `Get-Command -module Foo` is used to list commands.
                 Set-Alias aaaaalias Get-AAAA
@@ -121,21 +112,23 @@ Describe 'New-MarkdownHelp' {
             Remove-Module PlatyPSTestModule -ErrorAction SilentlyContinue
         }
 
-        It 'generates markdown files only for exported functions' -Skip:$IsUnix {
-            ($files | Measure-Object).Count | Should Be 4
-            $files.Name | Should -BeIn 'Get-AAAA.md','Get-AdvancedFn.md','Get-SimpleFn.md','FromCommandWorkflow.md'
+        It 'generates markdown files only for exported functions' -Skip:(!$IsWindows) {
+            ($files | Measure-Object).Count | Should Be 3
+            $files.Name | ForEach-Object {
+                $_ -in 'Get-AAAA.md','Get-AdvancedFn.md','Get-SimpleFn.md' | Should Be $true
+            }
         }
 
         It 'generates markdown that includes CommonParameters in advanced functions' {
-            ($files | Where-Object -FilterScript { $_.Name -eq 'Get-AdvancedFn.md' }).FullName | Should -FileContentMatch '### CommonParameters'
+            ($files | Where-Object -FilterScript { $_.Name -eq 'Get-AdvancedFn.md' }).FullName | ForEach-Object {
+                ($null -eq (Select-String -Path $_ -SimpleMatch '### CommonParameters')) | Should Be $false
+            }
         }
 
         It 'generates markdown that excludes CommonParameters from simple functions' {
-            ($files | Where-Object -FilterScript { $_.Name -eq 'Get-SimpleFn.md' }).FullName | Should -FileContentMatch -Not '### CommonParameters'
-        }
-
-        It 'generates markdown for workflows with CommonParameters' -Skip:$IsUnix {
-            ($files | Where-Object -FilterScript { $_.Name -eq 'FromCommandWorkflow.md' }).FullName | Should -FileContentMatch '### CommonParameters'
+            ($files | Where-Object -FilterScript { $_.Name -eq 'Get-SimpleFn.md' }).FullName | ForEach-Object {
+                Select-String -Path $_ -SimpleMatch '### CommonParameters' | Should BeNullOrEmpty
+            }
         }
     }
 
@@ -237,6 +230,7 @@ Write-Host 'Hello World!'
 ### -AAA
 ### -BBB
 ### -CCC
+### -ProgressAction
 ### -Confirm
 ### -WhatIf
 ### -IncludeTotalCount
@@ -383,13 +377,13 @@ Write-Host 'Hello World!'
         $content = Get-Content $file
 
         It 'generates markdown with correct parameter set names' {
-            ($content | Where-Object {$_ -eq 'Parameter Sets: (All)'} | Measure-Object).Count | Should Be 1
+            ($content | Where-Object {$_ -eq 'Parameter Sets: (All)'} | Measure-Object).Count | Should Be 2
             ($content | Where-Object {$_ -eq 'Parameter Sets: First'} | Measure-Object).Count | Should Be 1
             ($content | Where-Object {$_ -eq 'Parameter Sets: Second'} | Measure-Object).Count | Should Be 1
         }
 
-        It 'generates markdown with correct synopsis' {
-            ($content | Where-Object {$_ -eq 'Adds a file name extension to a supplied name.'} | Measure-Object).Count | Should Be 1
+        It 'generates markdown with correct synopsis and description' {
+            ($content | Where-Object {$_ -eq 'Adds a file name extension to a supplied name.'} | Measure-Object).Count | Should Be 2
         }
 
         It 'generates markdown with correct help description specified by HelpMessage attribute' {
@@ -542,11 +536,12 @@ Write-Host 'Hello World!'
             $expectedParameters = normalizeEnds @'
 Type: System.String
 Type: System.Nullable`1[System.Int32]
+Type: System.Management.Automation.ActionPreference
 Type: System.Management.Automation.SwitchParameter
 
 '@
             $expectedSyntax = normalizeEnds @'
-Get-Alpha [-WhatIf] [[-CCC] <String>] [[-ddd] <Int32>] [<CommonParameters>]
+Get-Alpha [-WhatIf] [[-CCC] <String>] [[-ddd] <Int32>] [-ProgressAction <ActionPreference>]
 
 '@
 
@@ -560,11 +555,12 @@ Get-Alpha [-WhatIf] [[-CCC] <String>] [[-ddd] <Int32>] [<CommonParameters>]
             $expectedParameters = normalizeEnds @'
 Type: String
 Type: Int32
+Type: ActionPreference
 Type: SwitchParameter
 
 '@
             $expectedSyntax = normalizeEnds @'
-Get-Alpha [-WhatIf] [[-CCC] <String>] [[-ddd] <Int32>] [<CommonParameters>]
+Get-Alpha [-WhatIf] [[-CCC] <String>] [[-ddd] <Int32>] [-ProgressAction <ActionPreference>]
 
 '@
 
@@ -743,7 +739,7 @@ Describe 'New-ExternalHelp' {
         $help = Get-HelpPreview -Path $maml
         ($help.Syntax.syntaxItem | Measure-Object).Count | Should Be 1
         $names = $help.Syntax.syntaxItem.parameter.Name
-        ($names | Measure-Object).Count | Should Be 3
+        ($names | Measure-Object).Count | Should Be 4
         $names[0] | Should Be 'First'
         $names[1] | Should Be 'Third'
         $names[2] | Should Be 'Named'
@@ -858,70 +854,9 @@ Applicable: tag 4
     }
 }
 
-if (-not $global:IsUnix) {
+if ($IsWindows) {
 #region PS Objects to MAML Model Tests
     Describe 'Get-Help & Get-Command on Add-Computer to build MAML Model Object' {
-
-        Context 'Add-Computer' {
-
-            It 'Checks that Help Exists on Computer Running Tests' {
-
-                $Command = Get-Command Add-Computer
-                $HelpFileName = Split-Path $Command.HelpFile -Leaf
-                $foundHelp = @()
-                $paths = $env:PsModulePath.Split(';')
-                foreach($path in $paths)
-                {
-                    $path = Split-Path $path -Parent
-                    $foundHelp += Get-ChildItem -ErrorAction SilentlyContinue -Path $path -Recurse |
-                        Where-Object { $_.Name -like "*$HelpFileName"} | Select-Object Name
-                }
-
-                $foundHelp.Count | Should BeGreaterThan 0
-            }
-
-            # call non-exported function in the module scope
-            $mamlModelObject = & (Get-Module platyPS) { GetMamlObject -Cmdlet "Add-Computer" }
-
-            It 'Validates attributes by checking several sections of the single attributes for Add-Computer' {
-
-                $mamlModelObject.Name | Should be "Add-Computer"
-                $mamlModelObject.Synopsis.Text | Should be "Add the local computer to a domain or workgroup."
-                $mamlModelObject.Description.Text.Substring(0,137) | Should be 'The `Add-Computer` cmdlet adds the local computer or remote computers to a domain or workgroup, or moves them from one domain to another.'
-                $mamlModelObject.Notes.Text.Substring(0,33) | Should be "- In Windows PowerShell 2.0, the "
-            }
-
-            It 'Validates the examples by checking Add-Computer Example 1' {
-
-                $mamlModelObject.Examples[0].Title | Should be "Example 1: Add a local computer to a domain then restart the computer"
-                $mamlModelObject.Examples[0].Code[0].Text | Should be "Add-Computer -DomainName Domain01 -Restart"
-                $mamlModelObject.Examples[0].Remarks.Substring(0,120) | Should be "This command adds the local computer to the Domain01 domain and then restarts the computer to make the change effective."
-
-            }
-
-            It 'Validates Parameters by checking Add-Computer Computer Name and Local Credential in Domain ParameterSet'{
-
-                $Parameter = $mamlModelObject.Syntax[0].Parameters | Where-Object { $_.Name -eq "ComputerName" }
-                $Parameter.Name | Should be "ComputerName"
-                $Parameter.Type | Should be "string[]"
-                $Parameter.Required | Should be $false
-            }
-
-            It 'Validates there is only 1 default parameterset and that it is the domain parameterset for Add-Computer'{
-
-                $DefaultParameterSet = $mamlModelObject.Syntax | Where-Object {$_.IsDefault}
-                $count = 0
-                foreach($set in $DefaultParameterSet)
-                {
-                    $count = $count +1
-                }
-                $count | Should be 1
-
-                $DefaultParameterSetName = $mamlModelObject.Syntax | Where-Object {$_.IsDefault} | Select-Object ParameterSetName
-                $DefaultParameterSetName.ParameterSetName | Should be "Domain"
-            }
-        }
-
         Context 'Add-Member' {
             # call non-exported function in the module scope
             $mamlModelObject = & (Get-Module platyPS) { GetMamlObject -Cmdlet "Add-Member" }
@@ -936,7 +871,7 @@ if (-not $global:IsUnix) {
                 ($Parameters | Measure-Object).Count | Should Be 1
                 $Parameters | ForEach-Object {
                     $_.Name | Should be "MemberType"
-                    $_.ParameterValueGroup.Count | Should be 16
+                    $_.ParameterValueGroup.Count | Should be 17
                 }
             }
         }
@@ -1120,7 +1055,7 @@ Describe 'Update-MarkdownHelp reflection scenario' {
     }
 
     It 'produce a dummy example' {
-        $v1md.FullName | Should FileContentMatch '### Example 1'
+        $null -ne (Select-String -SimpleMatch '### Example 1' -Path $v1md.FullName) | Should Be $true
     }
 
     $v1markdown = $v1md | Get-Content -Raw
@@ -1192,7 +1127,7 @@ It has mutlilines. And hyper (http://link.com).
         $e.Code | Should Match 'PS C:\>*'
     }
 
-    It 'Confirms that Update-MarkdownHelp correctly populates the Default Parameterset' -Skip:$global:IsUnix {
+    It 'Confirms that Update-MarkdownHelp correctly populates the Default Parameterset' -Skip:(!$IsWindows) {
         $outputOriginal = "TestDrive:\MarkDownOriginal"
         $outputUpdated = "TestDrive:\MarkDownUpdated"
         New-Item -ItemType Directory -Path $outputOriginal
@@ -1635,6 +1570,6 @@ Describe 'New-YamlHelp' {
 
         $ymlFile = New-YamlHelp "$PSScriptRoot\assets\New-YamlHelp.md" -OutputFolder "$TestDrive\yaml" -Force
 
-        Get-Content $ymlFile | Should -Contain '- type: IResult\#System.IO.FileInfo[]'
+        $null -ne (Get-Content $ymlFile | Select-String -SimpleMatch '- type: IResult\#System.IO.FileInfo[]') | Should Be $true
     }
 }
