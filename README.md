@@ -1,9 +1,6 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/u65tnar0cfkmqywl/branch/master?svg=true)](https://ci.appveyor.com/project/PowerShell/markdown-maml/branch/master)
-[![Build status](https://travis-ci.org/PowerShell/platyPS.svg?branch=master)](https://travis-ci.org/PowerShell/platyPS/builds)
+# [not your] PlatyPS
 
-[![Join the chat at https://gitter.im/PowerShell/platyPS](https://badges.gitter.im/PowerShell/platyPS.svg)](https://gitter.im/PowerShell/platyPS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-# PlatyPS
+__DO NOT USE__: This fork of PlatyPS was made to support automation of docs for a project using powershell-yaml. It was modified as a stop-gap until v2.x goes GA. Note that the alpha v2 branch on the original repo is also compatible with powershell-yaml, but the rewrite of PlatyPS is still missing cmdlets to update markdown help and generate MAML from markdown help.
 
 PlatyPS provides a way to:
 
