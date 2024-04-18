@@ -3,6 +3,19 @@ CHANGELOG
 
 ## Not released
 
+# 0.15.12
+
+- Bumped target framework to **netstandard2.0** and dropped **net451** as a target. This may impact compatibility with
+  other libraries your project(s) use, and limits .NET Framework compatibility to a minimum version of 4.6.1. See the
+  [.NET Standard](https://learn.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0) version matrix.
+- Added **ProgressAction** to the list of common parameters which eliminates the common parameter from being listed
+  independently as a parameter in the markdown files produced by `New-MarkdownHelp`.
+- Renamed module to **joshooaj.platyPS** and updated the module GUID to ensure there is no confusion that this is an
+  independently published version of PlatyPS.
+- Removed Windows-only tests from the Pester tests and updated tests as needed.
+- Uses GitHub Actions to automate tests and publishing.
+- Uses Nerdbank.GitVersioning to set the version number
+
 # 0.14.2
 
 - Add HelpInfoUri for platyPS module
