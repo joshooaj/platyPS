@@ -30,6 +30,7 @@ jobs:
         run: ./build.ps1 -Configuration Release -Test
 
       - uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest'
         with:
           name: module
           path: out/joshooaj.platyPS
