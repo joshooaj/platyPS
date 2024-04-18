@@ -722,12 +722,12 @@ function New-YamlHelp
     [OutputType([System.IO.FileInfo[]])]
     param(
         [Parameter(Mandatory=$true,
-            Position=1,
+            Position=0,
             ValueFromPipeline=$true,
             ValueFromPipelineByPropertyName=$true)]
         [string[]]$Path,
 
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$true, Position = 1)]
         [string]$OutputFolder,
 
         [System.Text.Encoding]$Encoding = [System.Text.Encoding]::UTF8,

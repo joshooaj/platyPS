@@ -490,7 +490,7 @@ Write-Host 'Hello World!'
 
         It "generates a landing page from MAML"{
 
-            New-MarkdownHelp -MamlFile (Get-ChildItem "$outFolder\joshooaj.platyPS\en-US\platy*xml") `
+            New-MarkdownHelp -MamlFile (Get-ChildItem "$outFolder\joshooaj.platyPS\en-US\joshooaj.platy*xml") `
                         -OutputFolder $OutputFolder `
                         -WithModulePage `
                         -ModuleName "PlatyPS" `
@@ -1607,8 +1607,8 @@ Describe 'New-YamlHelp' {
 
         $yamlModel.RequiredParameters.Count | Should Be 2
 
-        $yamlModel.RequiredParameters[0].Name | Should Be 'Path'
-        $yamlModel.RequiredParameters[1].Name | Should Be 'OutputFolder'
+        $yamlModel.RequiredParameters[0].Name | Should Be 'OutputFolder'
+        $yamlModel.RequiredParameters[1].Name | Should Be 'Path'
 
         $yamlModel.OptionalParameters.Count | Should Be 3
 

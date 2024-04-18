@@ -8,13 +8,18 @@ param(
     $Configuration = "Debug",
     [switch]$SkipDocs,
     [string]$DotnetCli,
-    [switch]$Test
+    [switch]$Test,
+    [switch]$Publish
 )
 
 function Find-DotnetCli() {
     [string] $DotnetCli = ''
     $dotnetCmd = Get-Command dotnet
     return $dotnetCmd.Path
+}
+
+if ($Publish) {
+    $Test = $true
 }
 
 if ($null -eq (Get-Module Microsoft.PowerShell.PSResourceGet -ListAvailable)) {
@@ -105,4 +110,8 @@ if ($Test) {
     if ($errorString) {
         throw $errorString
     }
+}
+
+if ($Publish) {
+    Publish-Module -Path $pwd\out\joshooaj.platyPS -NuGetApiKey $env:PSGALLERY_API_KEY -ErrorAction Stop
 }
