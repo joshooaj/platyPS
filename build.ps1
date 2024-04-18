@@ -72,7 +72,7 @@ Copy-Item .\templates\* out\joshooaj.platyPS\templates\
 
 # put the right module version
 $moduleVersion = (dotnet nbgv get-version -f json | ConvertFrom-Json).SimpleVersion
-$manifest = cat -raw out\joshooaj.platyPS\joshooaj.platyPS.psd1
+$manifest = Get-Content -Raw -Path out\joshooaj.platyPS\joshooaj.platyPS.psd1
 $manifest = $manifest -replace "(?<=ModuleVersion\s*=\s*)'0.0.1'", "'$moduleVersion'"
 Set-Content -Value $manifest -Path out\joshooaj.platyPS\joshooaj.platyPS.psd1 -Encoding Ascii
 
