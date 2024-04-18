@@ -1,9 +1,25 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/u65tnar0cfkmqywl/branch/master?svg=true)](https://ci.appveyor.com/project/PowerShell/markdown-maml/branch/master)
-[![Build status](https://travis-ci.org/PowerShell/platyPS.svg?branch=master)](https://travis-ci.org/PowerShell/platyPS/builds)
+# joshooaj.PlatyPS
 
-[![Join the chat at https://gitter.im/PowerShell/platyPS](https://badges.gitter.im/PowerShell/platyPS.svg)](https://gitter.im/PowerShell/platyPS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+## Introduction
 
-# PlatyPS
+This repo is a fork of the official [PlatyPS repo](https://github.com/PowerShell/platyPS) where I have updated the
+module to suit my needs. Once PlatyPS v1 is released with support for PowerShell 7.4 and a whole bunch of other
+improvements, I will be abandoning this repo in favor of the new and improved PlatyPS.
+
+### Differences
+
+- Bumped target framework to **netstandard2.0** and dropped **net451** as a target. This may impact compatibility with
+  other libraries your project(s) use, and limits .NET Framework compatibility to a minimum version of 4.6.1. See the
+  [.NET Standard](https://learn.microsoft.com/en-us/dotnet/standard/net-standard?tabs=net-standard-2-0) version matrix.
+- Added **ProgressAction** to the list of common parameters which eliminates the common parameter from being listed
+  independently as a parameter in the markdown files produced by `New-MarkdownHelp`.
+- Renamed module to **joshooaj.platyPS** and updated the module GUID to ensure there is no confusion that this is an
+  independently published version of PlatyPS.
+- Removed Windows-only tests from the Pester tests and updated tests as needed.
+- Uses GitHub Actions to automate tests and publishing.
+- Uses Nerdbank.GitVersioning to set the version number
+
+## (Mostly) Original README
 
 PlatyPS provides a way to:
 
@@ -37,10 +53,10 @@ There is slight preference toward number 1 (markdown as the source).
 
 ## Quick start
 
-* Install platyPS module from the [PowerShell Gallery](https://www.powershellgallery.com/packages/platyPS):
+* Install joshooaj.platyPS module from the [PowerShell Gallery](https://www.powershellgallery.com/packages/joshooaj.platyPS):
 
 ```powershell
-Install-Module -Name platyPS -Scope CurrentUser
+Install-Module -Name joshooaj.platyPS -Scope CurrentUser
 Import-Module joshooaj.platyPS
 ```
 
