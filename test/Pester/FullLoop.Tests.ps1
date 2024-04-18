@@ -161,7 +161,7 @@ Describe 'Microsoft.PowerShell (SMA) help' {
     @(
 
         [psobject]@{
-            MamlFile = $env:PSModulePath -split ';' | % { Join-Path (Split-Path $_) 'Help/en-US/System.Management.Automation.dll-Help.xml' } | Where-Object { Test-Path $_ } | Select-Object -First 1
+            MamlFile = [io.path]::Combine($PSScriptRoot, 'System.Management.Automation.dll-Help.xml')
             OutputFolder = "$outFolder\sma-maml"
             Force = $true
             ConvertNotesToList = $true
