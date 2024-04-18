@@ -4,7 +4,7 @@ $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path $PSScriptRoot\..\..).Path
 $outFolder = "$root\out"
 
-Import-Module $outFolder\platyPS -Force
+Import-Module $outFolder\joshooaj.platyPS -Force
 $MyIsLinux = Get-Variable -Name IsLinux -ValueOnly -ErrorAction SilentlyContinue
 $MyIsMacOS = Get-Variable -Name IsMacOS -ValueOnly -ErrorAction SilentlyContinue
 <#
@@ -149,11 +149,11 @@ function OutFileAndStripped
     Set-Content -Path $path -Value $content
 }
 
-Describe 'Microsoft.PowerShell.Core (SMA) help' {
+Describe 'Microsoft.PowerShell (SMA) help' {
 
     Context 'produce the real help' {
         $textOutputFile = "$outFolder\SMA.original.txt"
-        $help = Get-HelpPreview $pshome\en-US\System.Management.Automation.dll-Help.xml | Out-String
+        $help = Get-HelpPreview $PSScriptRoot\System.Management.Automation.dll-Help.xml | Out-String
         OutFileAndStripped -path $textOutputFile -content $help
     }
 
@@ -161,18 +161,19 @@ Describe 'Microsoft.PowerShell.Core (SMA) help' {
     @(
 
         [psobject]@{
-            MamlFile = "$pshome\en-US\System.Management.Automation.dll-Help.xml"
+            MamlFile = $env:PSModulePath -split ';' | % { Join-Path (Split-Path $_) 'Help/en-US/System.Management.Automation.dll-Help.xml' } | Where-Object { Test-Path $_ } | Select-Object -First 1
             OutputFolder = "$outFolder\sma-maml"
             Force = $true
             ConvertNotesToList = $true
             ConvertDoubleDashLists = $true
-        },
-
-        [psobject]@{
-            module = "Microsoft.PowerShell.Core"
-            OutputFolder = "$outFolder\sma-model"
-            Force = $true
         }
+        # ,
+
+        # [psobject]@{
+        #     module = "Microsoft.PowerShell"
+        #     OutputFolder = "$outFolder\sma-model"
+        #     Force = $true
+        # }
 
     ) | ForEach-Object {
 

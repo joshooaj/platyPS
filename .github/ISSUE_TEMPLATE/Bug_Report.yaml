@@ -57,7 +57,7 @@ body:
     description: Paste verbatim output from `Get-Modules` and `$PSVersionTable` below.
     render: powershell
     placeholder: |
-      PS> Get-Module PlatyPS -ListAvailable
+      PS> Get-Module joshooaj.PlatyPS -ListAvailable
       PS> $PSVersionTable
   validations:
     required: true

@@ -1,0 +1,52 @@
+name: CI/CD
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Test
+        shell: pwsh
+        env:
+          PSGALLERY_API_KEY: ${{ secrets.PSGALLERY_API_KEY }}
+          PUBLISH_MODULE: ${{ startsWith(github.event.workflow_run.head_branch, 'v') }}
+        run: ./build.ps1 -Configuration Release -Test
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: module
+          path: out/joshooaj.platyPS
+
+  publish:
+    name: Publish to PSGallery
+    needs: test
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: module
+          path: out/joshooaj.platyPS
+
+      - name: Publish
+        shell: pwsh
+        env:
+          PSGALLERY_API_KEY: ${{ secrets.PSGALLERY_API_KEY }}
+        run: Publish-Module -Path ./out/joshooaj.platyPS -NugetApiKey $env:PSGALLERY_API_KEY

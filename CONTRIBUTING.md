@@ -27,9 +27,9 @@ On Windows you would also need to [install full dotnet framework](https://docs.m
 .\build.ps1
 ```
 As part of the build, platyPS generates help for itself.
-The output of the build is placed in `out\platyPS`.
+The output of the build is placed in `out\joshooaj.platyPS`.
 
-`build.ps1` also imports the module from `out\platyPS` and generates help itself.
+`build.ps1` also imports the module from `out\joshooaj.platyPS` and generates help itself.
 
 **Note**: if you changed C# code, `build.ps1` will try to overwrite a DLL in use.
 You will then need to re-open your PowerShell session.

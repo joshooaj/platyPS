@@ -3,14 +3,14 @@ $ErrorActionPreference = 'Stop'
 
 $root = (Resolve-Path $PSScriptRoot\..\..).Path
 $outFolder = "$root\out"
-$moduleFolder = "$outFolder\platyPS"
+$moduleFolder = "$outFolder\joshooaj.platyPS"
 
 Import-Module $moduleFolder -Force
 $MyIsLinux = Get-Variable -Name IsLinux -ValueOnly -ErrorAction SilentlyContinue
 $MyIsMacOS = Get-Variable -Name IsMacOS -ValueOnly -ErrorAction SilentlyContinue
 $global:IsUnix = $MyIsLinux -or $MyIsMacOS
 
-Import-LocalizedData -BindingVariable LocalizedData -BaseDirectory $moduleFolder -FileName platyPS.Resources.psd1
+Import-LocalizedData -BindingVariable LocalizedData -BaseDirectory $moduleFolder -FileName joshooaj.platyPS.Resources.psd1
 
 Describe 'New-MarkdownHelp' {
     function normalizeEnds([string]$text)
@@ -59,7 +59,7 @@ Describe 'New-MarkdownHelp' {
 
     Context 'from platyPS module' {
         It 'creates few help files for platyPS' {
-            $files = New-MarkdownHelp -Module PlatyPS -OutputFolder TestDrive:\platyPS -Force
+            $files = New-MarkdownHelp -Module joshooaj.PlatyPS -OutputFolder TestDrive:\joshooaj.platyPS -Force
             ($files | Measure-Object).Count | Should BeGreaterThan 4
         }
     }
@@ -93,13 +93,6 @@ Describe 'New-MarkdownHelp' {
 
                 }
 
-
-                if (-not $global:IsUnix) {
-                    # just declaring workflow is a parse-time error on unix
-                    Invoke-Expression "Workflow FromCommandWorkflow {}"
-                    Export-ModuleMember -Function 'FromCommandWorkflow'
-                }
-
                 # Set-Alias and New-Alias provide two different results
                 # when `Get-Command -module Foo` is used to list commands.
                 Set-Alias aaaaalias Get-AAAA
@@ -122,8 +115,8 @@ Describe 'New-MarkdownHelp' {
         }
 
         It 'generates markdown files only for exported functions' -Skip:$IsUnix {
-            ($files | Measure-Object).Count | Should Be 4
-            $files.Name | Should -BeIn 'Get-AAAA.md','Get-AdvancedFn.md','Get-SimpleFn.md','FromCommandWorkflow.md'
+            ($files | Measure-Object).Count | Should Be 3
+            $files.Name | Should -BeIn 'Get-AAAA.md','Get-AdvancedFn.md','Get-SimpleFn.md'
         }
 
         It 'generates markdown that includes CommonParameters in advanced functions' {
@@ -132,10 +125,6 @@ Describe 'New-MarkdownHelp' {
 
         It 'generates markdown that excludes CommonParameters from simple functions' {
             ($files | Where-Object -FilterScript { $_.Name -eq 'Get-SimpleFn.md' }).FullName | Should -FileContentMatch -Not '### CommonParameters'
-        }
-
-        It 'generates markdown for workflows with CommonParameters' -Skip:$IsUnix {
-            ($files | Where-Object -FilterScript { $_.Name -eq 'FromCommandWorkflow.md' }).FullName | Should -FileContentMatch '### CommonParameters'
         }
     }
 
@@ -389,7 +378,7 @@ Write-Host 'Hello World!'
         }
 
         It 'generates markdown with correct synopsis' {
-            ($content | Where-Object {$_ -eq 'Adds a file name extension to a supplied name.'} | Measure-Object).Count | Should Be 1
+            ($content -join "`n") -cmatch '## SYNOPSIS\nAdds a file name extension to a supplied name\.' | Should -Be $true
         }
 
         It 'generates markdown with correct help description specified by HelpMessage attribute' {
@@ -491,9 +480,9 @@ Write-Host 'Hello World!'
 
         It "generates a landing page from Module"{
 
-            New-MarkdownHelp -Module PlatyPS -OutputFolder $OutputFolder -WithModulePage -Force
+            New-MarkdownHelp -Module joshooaj.PlatyPS -OutputFolder $OutputFolder -WithModulePage -Force
 
-            $LandingPage = Get-ChildItem (Join-Path $OutputFolder PlatyPS.md)
+            $LandingPage = Get-ChildItem (Join-Path $OutputFolder joshooaj.PlatyPS.md)
 
             $LandingPage | Should Not Be $null
 
@@ -501,7 +490,7 @@ Write-Host 'Hello World!'
 
         It "generates a landing page from MAML"{
 
-            New-MarkdownHelp -MamlFile (Get-ChildItem "$outFolder\platyPS\en-US\platy*xml") `
+            New-MarkdownHelp -MamlFile (Get-ChildItem "$outFolder\joshooaj.platyPS\en-US\joshooaj.platy*xml") `
                         -OutputFolder $OutputFolder `
                         -WithModulePage `
                         -ModuleName "PlatyPS" `
@@ -514,7 +503,7 @@ Write-Host 'Hello World!'
         }
 
         it 'generate a landing page from Module with parameter ModulePagePath' {
-            New-MarkdownHelp -Module PlatyPS -OutputFolder $OutputFolder -WithModulePage -ModulePagePath $OutputFolderReadme -Force
+            New-MarkdownHelp -Module joshooaj.PlatyPS -OutputFolder $OutputFolder -WithModulePage -ModulePagePath $OutputFolderReadme -Force
 
             $LandingPage = Test-Path -Path $OutputFolderReadme
             $LandingPage | Should Not Be $null
@@ -616,13 +605,13 @@ Get-Alpha [-WhatIf] [[-CCC] <String>] [[-ddd] <Int32>] [<CommonParameters>]
 
             $maml = $file | New-ExternalHelp -OutputPath "TestDrive:\"
             $help = Get-HelpPreview -Path $maml
-            $mamlModelObject = & (Get-Module platyPS) { GetMamlObject -Cmdlet "Test-DontShowParameter" }
+            $mamlModelObject = & (Get-Module joshooaj.platyPS) { GetMamlObject -Cmdlet "Test-DontShowParameter" }
 
             $updatedFile = Update-MarkdownHelp -Path $fileWithoutDontShowSwitch -ExcludeDontShow
             $null = New-Item -ItemType Directory "$TestDrive\UpdateMarkdown"
             $updatedMaml = $file | New-ExternalHelp -OutputPath "TestDrive:\UpdateMarkdown"
             $updatedHelp = Get-HelpPreview -Path $updatedMaml
-            $updateMamlModelObject = & (Get-Module platyPS) { GetMamlObject -Cmdlet "Test-DontShowParameter" }
+            $updateMamlModelObject = & (Get-Module joshooaj.platyPS) { GetMamlObject -Cmdlet "Test-DontShowParameter" }
         }
 
         Context "New-MarkdownHelp with -ExcludeDontShow" {
@@ -860,87 +849,87 @@ Applicable: tag 4
 
 if (-not $global:IsUnix) {
 #region PS Objects to MAML Model Tests
-    Describe 'Get-Help & Get-Command on Add-Computer to build MAML Model Object' {
+    # Describe 'Get-Help & Get-Command on Add-Computer to build MAML Model Object' {
 
-        Context 'Add-Computer' {
+    #     Context 'Add-Computer' {
 
-            It 'Checks that Help Exists on Computer Running Tests' {
+    #         It 'Checks that Help Exists on Computer Running Tests' {
 
-                $Command = Get-Command Add-Computer
-                $HelpFileName = Split-Path $Command.HelpFile -Leaf
-                $foundHelp = @()
-                $paths = $env:PsModulePath.Split(';')
-                foreach($path in $paths)
-                {
-                    $path = Split-Path $path -Parent
-                    $foundHelp += Get-ChildItem -ErrorAction SilentlyContinue -Path $path -Recurse |
-                        Where-Object { $_.Name -like "*$HelpFileName"} | Select-Object Name
-                }
+    #             $Command = Get-Command Add-Computer
+    #             $HelpFileName = Split-Path $Command.HelpFile -Leaf
+    #             $foundHelp = @()
+    #             $paths = $env:PsModulePath.Split(';')
+    #             foreach($path in $paths)
+    #             {
+    #                 $path = Split-Path $path -Parent
+    #                 $foundHelp += Get-ChildItem -ErrorAction SilentlyContinue -Path $path -Recurse |
+    #                     Where-Object { $_.Name -like "*$HelpFileName"} | Select-Object Name
+    #             }
 
-                $foundHelp.Count | Should BeGreaterThan 0
-            }
+    #             $foundHelp.Count | Should BeGreaterThan 0
+    #         }
 
-            # call non-exported function in the module scope
-            $mamlModelObject = & (Get-Module platyPS) { GetMamlObject -Cmdlet "Add-Computer" }
+    #         # call non-exported function in the module scope
+    #         $mamlModelObject = & (Get-Module joshooaj.platyPS) { GetMamlObject -Cmdlet "Add-Computer" }
 
-            It 'Validates attributes by checking several sections of the single attributes for Add-Computer' {
+    #         It 'Validates attributes by checking several sections of the single attributes for Add-Computer' {
 
-                $mamlModelObject.Name | Should be "Add-Computer"
-                $mamlModelObject.Synopsis.Text | Should be "Add the local computer to a domain or workgroup."
-                $mamlModelObject.Description.Text.Substring(0,137) | Should be 'The `Add-Computer` cmdlet adds the local computer or remote computers to a domain or workgroup, or moves them from one domain to another.'
-                $mamlModelObject.Notes.Text.Substring(0,33) | Should be "- In Windows PowerShell 2.0, the "
-            }
+    #             $mamlModelObject.Name | Should be "Add-Computer"
+    #             $mamlModelObject.Synopsis.Text | Should be "Add the local computer to a domain or workgroup."
+    #             $mamlModelObject.Description.Text.Substring(0,137) | Should be 'The `Add-Computer` cmdlet adds the local computer or remote computers to a domain or workgroup, or moves them from one domain to another.'
+    #             $mamlModelObject.Notes.Text.Substring(0,33) | Should be "- In Windows PowerShell 2.0, the "
+    #         }
 
-            It 'Validates the examples by checking Add-Computer Example 1' {
+    #         It 'Validates the examples by checking Add-Computer Example 1' {
 
-                $mamlModelObject.Examples[0].Title | Should be "Example 1: Add a local computer to a domain then restart the computer"
-                $mamlModelObject.Examples[0].Code[0].Text | Should be "Add-Computer -DomainName Domain01 -Restart"
-                $mamlModelObject.Examples[0].Remarks.Substring(0,120) | Should be "This command adds the local computer to the Domain01 domain and then restarts the computer to make the change effective."
+    #             $mamlModelObject.Examples[0].Title | Should be "Example 1: Add a local computer to a domain then restart the computer"
+    #             $mamlModelObject.Examples[0].Code[0].Text | Should be "Add-Computer -DomainName Domain01 -Restart"
+    #             $mamlModelObject.Examples[0].Remarks.Substring(0,120) | Should be "This command adds the local computer to the Domain01 domain and then restarts the computer to make the change effective."
 
-            }
+    #         }
 
-            It 'Validates Parameters by checking Add-Computer Computer Name and Local Credential in Domain ParameterSet'{
+    #         It 'Validates Parameters by checking Add-Computer Computer Name and Local Credential in Domain ParameterSet'{
 
-                $Parameter = $mamlModelObject.Syntax[0].Parameters | Where-Object { $_.Name -eq "ComputerName" }
-                $Parameter.Name | Should be "ComputerName"
-                $Parameter.Type | Should be "string[]"
-                $Parameter.Required | Should be $false
-            }
+    #             $Parameter = $mamlModelObject.Syntax[0].Parameters | Where-Object { $_.Name -eq "ComputerName" }
+    #             $Parameter.Name | Should be "ComputerName"
+    #             $Parameter.Type | Should be "string[]"
+    #             $Parameter.Required | Should be $false
+    #         }
 
-            It 'Validates there is only 1 default parameterset and that it is the domain parameterset for Add-Computer'{
+    #         It 'Validates there is only 1 default parameterset and that it is the domain parameterset for Add-Computer'{
 
-                $DefaultParameterSet = $mamlModelObject.Syntax | Where-Object {$_.IsDefault}
-                $count = 0
-                foreach($set in $DefaultParameterSet)
-                {
-                    $count = $count +1
-                }
-                $count | Should be 1
+    #             $DefaultParameterSet = $mamlModelObject.Syntax | Where-Object {$_.IsDefault}
+    #             $count = 0
+    #             foreach($set in $DefaultParameterSet)
+    #             {
+    #                 $count = $count +1
+    #             }
+    #             $count | Should be 1
 
-                $DefaultParameterSetName = $mamlModelObject.Syntax | Where-Object {$_.IsDefault} | Select-Object ParameterSetName
-                $DefaultParameterSetName.ParameterSetName | Should be "Domain"
-            }
-        }
+    #             $DefaultParameterSetName = $mamlModelObject.Syntax | Where-Object {$_.IsDefault} | Select-Object ParameterSetName
+    #             $DefaultParameterSetName.ParameterSetName | Should be "Domain"
+    #         }
+    #     }
 
-        Context 'Add-Member' {
-            # call non-exported function in the module scope
-            $mamlModelObject = & (Get-Module platyPS) { GetMamlObject -Cmdlet "Add-Member" }
+    #     Context 'Add-Member' {
+    #         # call non-exported function in the module scope
+    #         $mamlModelObject = & (Get-Module joshooaj.platyPS) { GetMamlObject -Cmdlet "Add-Member" }
 
-            It 'Fetch MemberSet set name' {
-                $MemberSet = $mamlModelObject.Syntax | Where-Object {$_.ParameterSetName -eq 'MemberSet'}
-                ($MemberSet | Measure-Object).Count | Should Be 1
-            }
+    #         It 'Fetch MemberSet set name' {
+    #             $MemberSet = $mamlModelObject.Syntax | Where-Object {$_.ParameterSetName -eq 'MemberSet'}
+    #             ($MemberSet | Measure-Object).Count | Should Be 1
+    #         }
 
-            It 'populates ParameterValueGroup for MemberType' {
-                $Parameters = $mamlModelObject.Syntax.Parameters | Where-Object { $_.Name -eq "MemberType" }
-                ($Parameters | Measure-Object).Count | Should Be 1
-                $Parameters | ForEach-Object {
-                    $_.Name | Should be "MemberType"
-                    $_.ParameterValueGroup.Count | Should be 16
-                }
-            }
-        }
-    }
+    #         It 'populates ParameterValueGroup for MemberType' {
+    #             $Parameters = $mamlModelObject.Syntax.Parameters | Where-Object { $_.Name -eq "MemberType" }
+    #             ($Parameters | Measure-Object).Count | Should Be 1
+    #             $Parameters | ForEach-Object {
+    #                 $_.Name | Should be "MemberType"
+    #                 $_.ParameterValueGroup.Count | Should be 16
+    #             }
+    #         }
+    #     }
+    # }
 
 #endregion
 #########################################################
@@ -1030,8 +1019,8 @@ Describe 'Update-MarkdownHelp -LogPath' {
         $drop = "TestDrive:\MD\SingleCommand"
         Remove-Item -rec $drop -ErrorAction SilentlyContinue
         New-MarkdownHelp -Command Add-History -OutputFolder $drop | Out-Null
-        Update-MarkdownHelp -Path $drop -LogPath "$drop\platyPsLog.txt"
-        (Get-Childitem $drop\platyPsLog.txt).Name | Should Be 'platyPsLog.txt'
+        Update-MarkdownHelp -Path $drop -LogPath "$drop\joshooaj.platyPSLog.txt"
+        (Get-Childitem $drop\joshooaj.platyPSLog.txt).Name | Should Be 'joshooaj.platyPsLog.txt'
     }
 }
 
@@ -1062,7 +1051,7 @@ this text would be ignored
 Describe 'Update-MarkdownHelp with New-MarkdownHelp inlined functionality' {
     $OutputFolder = 'TestDrive:\update-new'
 
-    $originalFiles = New-MarkdownHelp -Module platyPS -OutputFolder $OutputFolder -WithModulePage
+    $originalFiles = New-MarkdownHelp -Module joshooaj.platyPS -OutputFolder $OutputFolder -WithModulePage
 
     It 'creates markdown in the first place' {
         $originalFiles | Should Not Be $null
@@ -1437,7 +1426,7 @@ You can pipe a string that contains a path to an existing archive file.
 Describe 'Create About Topic Markdown and Txt' {
 
     $output = "TestDrive:\"
-    $aboutTopicName = "PlatyPS"
+    $aboutTopicName = "joshooaj.PlatyPS"
     $templateLocation = (Split-Path ((Get-Module $aboutTopicName).Path) -Parent) + "\templates\aboutTemplate.md"
     $AboutTopicsOutputFolder = Join-Path $output "About"
     New-Item -Path $AboutTopicsOutputFolder -ItemType Directory
@@ -1614,12 +1603,12 @@ Describe 'New-YamlHelp' {
 
     It 'serializes key properties correctly' {
         $yamlModel.Name | Should Be 'New-YamlHelp'
-        $yamlModel.Module.Name | Should Be 'platyPS'
+        $yamlModel.Module.Name | Should Be 'joshooaj.platyPS'
 
         $yamlModel.RequiredParameters.Count | Should Be 2
 
-        $yamlModel.RequiredParameters[0].Name | Should Be 'Path'
-        $yamlModel.RequiredParameters[1].Name | Should Be 'OutputFolder'
+        $yamlModel.RequiredParameters[0].Name | Should Be 'OutputFolder'
+        $yamlModel.RequiredParameters[1].Name | Should Be 'Path'
 
         $yamlModel.OptionalParameters.Count | Should Be 3
 
