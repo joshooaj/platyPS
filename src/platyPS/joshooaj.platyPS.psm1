@@ -16,7 +16,7 @@
 ##     It would help keep code maintainable and simplify ramp up for others.
 ##
 
-Import-LocalizedData -BindingVariable LocalizedData -FileName platyPS.Resources.psd1
+Import-LocalizedData -BindingVariable LocalizedData -FileName joshooaj.platyPS.Resources.psd1
 
 ## Script constants
 
@@ -2157,7 +2157,7 @@ function GetCommands
         # Get-Module doesn't know about Microsoft.PowerShell.Core, so we don't use (Get-Module).ExportedCommands
 
         # We use: & (dummy module) {...} syntax to workaround
-        # the case `GetMamlObject -Module platyPS`
+        # the case `GetMamlObject -Module joshooaj.platyPS`
         # because in this case, we are in the module context and Get-Command returns all commands,
         # not only exported ones.
         $commands = & (New-Module {}) ([scriptblock]::Create("Get-Command -Module '$Module'")) |
@@ -2542,7 +2542,8 @@ function ConvertPsObjectsToMamlModel
                 'InformationVariable',
                 'OutVariable',
                 'OutBuffer',
-                'PipelineVariable'
+                'PipelineVariable',
+                'ProgressAction'
         ) -contains $parameterName) {
             return $true
         }

@@ -1,6 +1,6 @@
 ---
-external help file: platyPS-help.xml
-Module Name: platyPS
+external help file: joshooaj.platyPS-help.xml
+Module Name: joshooaj.platyPS
 online version: https://github.com/PowerShell/platyPS/blob/master/docs/New-MarkdownAboutHelp.md
 schema: 2.0.0
 ---

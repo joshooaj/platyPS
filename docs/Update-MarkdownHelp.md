@@ -1,6 +1,6 @@
 ---
-external help file: platyPS-help.xml
-Module Name: platyPS
+external help file: joshooaj.platyPS-help.xml
+Module Name: joshooaj.platyPS
 online version: https://github.com/PowerShell/platyPS/blob/master/docs/Update-MarkdownHelp.md
 schema: 2.0.0
 ---
@@ -14,7 +14,7 @@ Update PlatyPS markdown help files.
 
 ```
 Update-MarkdownHelp [-Path] <String[]> [[-Encoding] <Encoding>] [[-LogPath] <String>] [-LogAppend]
- [-AlphabeticParamsOrder] [-UseFullTypeName] [-UpdateInputOutput] [-Force] [-Session <PSSession>]
+ [-AlphabeticParamsOrder] [-UseFullTypeName] [-UpdateInputOutput] [-Force] [[-Session] <PSSession>]
  [-ExcludeDontShow] [<CommonParameters>]
 ```
 
@@ -72,6 +72,23 @@ It writes log information to the markdown.log file.
 
 ## PARAMETERS
 
+### -AlphabeticParamsOrder
+Order parameters alphabetically by name in PARAMETERS section.
+There are 5 exceptions: -Confirm, -WhatIf, -IncludeTotalCount, -Skip, and -First parameters will be the last.
+These parameters are common and hence have well-defined behavior.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Encoding
 Specifies the character encoding for your markdown help files.
 Specify a **System.Text.Encoding** object.
@@ -87,6 +104,36 @@ Aliases:
 Required: False
 Position: 1
 Default value: UTF8 without BOM
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExcludeDontShow
+Exclude the parameters marked with `DontShow` in the parameter attribute from the help content.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Remove help files that no longer exists within sessions (for example if function was deleted)
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -138,38 +185,6 @@ Accept pipeline input: True (ByValue)
 Accept wildcard characters: True
 ```
 
-### -AlphabeticParamsOrder
-Order parameters alphabetically by name in PARAMETERS section.
-There are 5 exceptions: -Confirm, -WhatIf, -IncludeTotalCount, -Skip, and -First parameters will be the last.
-These parameters are common and hence have well-defined behavior.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -UseFullTypeName
-Indicates that the target document will use a full type name instead of a short name for parameters.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Session
 Provides support for remote commands.
 Pass the session that you used to create the commands with `Import-PSSession`.
@@ -181,7 +196,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -202,23 +217,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Force
-Remove help files that no longer exists within sessions (for example if function was deleted)
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ExcludeDontShow
-Exclude the parameters marked with `DontShow` in the parameter attribute from the help content.
+### -UseFullTypeName
+Indicates that the target document will use a full type name instead of a short name for parameters.
 
 ```yaml
 Type: SwitchParameter

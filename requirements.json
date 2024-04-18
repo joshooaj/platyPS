@@ -1,0 +1,6 @@
+{
+    "Pester": {
+        "version": "[4.10.1]",
+        "repository": "PSGallery"
+    }
+}

@@ -41,7 +41,7 @@ There is slight preference toward number 1 (markdown as the source).
 
 ```powershell
 Install-Module -Name platyPS -Scope CurrentUser
-Import-Module platyPS
+Import-Module joshooaj.platyPS
 ```
 
 * Create initial Markdown help for `MyAwesomeModule` module:

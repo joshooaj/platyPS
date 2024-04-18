@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="92" errors="0" failures="0" not-run="0" inconclusive="0" ignored="4" skipped="0" invalid="0" date="2024-04-17" time="19:25:02">
+  <environment clr-version="Unknown" user-domain="MILESTONE" platform="Microsoft Windows 11 Enterprise|C:\WINDOWS|\Device\Harddisk0\Partition3" os-version="10.0.22631" machine-name="USLT-JH-04" nunit-version="2.5.8.0" user="JH" cwd="C:\repos\platyPS" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="TestFixture" name="Pester" executed="True" result="Ignored" success="True" time="74.0969" asserts="0" description="Pester">
+    <results>
+      <test-suite type="TestFixture" name="C:\repos\platyPS\test\Pester\FullLoop.Tests.ps1" executed="True" result="Ignored" success="True" time="46.9395" asserts="0" description="C:\repos\platyPS\test\Pester\FullLoop.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="Microsoft.PowerShell (SMA) help" executed="True" result="Ignored" success="True" time="46.4929" asserts="0" description="Microsoft.PowerShell (SMA) help">
+            <results>
+              <test-suite type="TestFixture" name="produce the real help" executed="True" result="Success" success="True" time="3.056" asserts="0" description="produce the real help">
+                <results />
+              </test-suite>
+              <test-suite type="TestFixture" name="Output SMA into C:\repos\platyPS\out\sma-maml" executed="True" result="Ignored" success="True" time="43.2707" asserts="0" description="Output SMA into C:\repos\platyPS\out\sma-maml">
+                <results>
+                  <test-case description="transforms Markdown to MAML with no errors" name="Microsoft.PowerShell (SMA) help.Output SMA into C:\repos\platyPS\out\sma-maml.transforms Markdown to MAML with no errors" time="31.9146" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="has right number of outputs for Get-Help" name="Microsoft.PowerShell (SMA) help.Output SMA into C:\repos\platyPS\out\sma-maml.has right number of outputs for Get-Help" time="0.0083" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Get-Help has ValidateSet entry in syntax block" name="Microsoft.PowerShell (SMA) help.Output SMA into C:\repos\platyPS\out\sma-maml.Get-Help has ValidateSet entry in syntax block" time="0.0278" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="has right type for New-PSTransportOption -IdleTimeoutSec" name="Microsoft.PowerShell (SMA) help.Output SMA into C:\repos\platyPS\out\sma-maml.has right type for New-PSTransportOption -IdleTimeoutSec" time="0" asserts="0" success="True" result="Ignored" executed="False" />
+                  <test-case description="Enter-PSHostProcess first argument is not -AppDomainName in all syntaxes" name="Microsoft.PowerShell (SMA) help.Output SMA into C:\repos\platyPS\out\sma-maml.Enter-PSHostProcess first argument is not -AppDomainName in all syntaxes" time="0.0216" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="preserve a list in Disconnect-PSSession -OutputBufferingMode" name="Microsoft.PowerShell (SMA) help.Output SMA into C:\repos\platyPS\out\sma-maml.preserve a list in Disconnect-PSSession -OutputBufferingMode" time="0" asserts="0" success="True" result="Ignored" executed="False" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\repos\platyPS\test\Pester\PlatyPs.Tests.ps1" executed="True" result="Ignored" success="True" time="27.1574" asserts="0" description="C:\repos\platyPS\test\Pester\PlatyPs.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="New-MarkdownHelp" executed="True" result="Ignored" success="True" time="10.2939" asserts="0" description="New-MarkdownHelp">
+            <results>
+              <test-suite type="TestFixture" name="errors" executed="True" result="Success" success="True" time="0.3684" asserts="0" description="errors">
+                <results>
+                  <test-case description="throw when cannot find module" name="New-MarkdownHelp.errors.throw when cannot find module" time="0.0938" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="throw when cannot find module" name="New-MarkdownHelp.errors.throw when cannot find module" time="0.1681" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="metadata" executed="True" result="Success" success="True" time="0.627" asserts="0" description="metadata">
+                <results>
+                  <test-case description="generates passed metadata" name="New-MarkdownHelp.metadata.generates passed metadata" time="0.32" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="respects -NoMetadata" name="New-MarkdownHelp.metadata.respects -NoMetadata" time="0.1382" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="errors on -NoMetadata and -Metadata" name="New-MarkdownHelp.metadata.errors on -NoMetadata and -Metadata" time="0.0489" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="encoding" executed="True" result="Success" success="True" time="0.2327" asserts="0" description="encoding">
+                <results />
+              </test-suite>
+              <test-suite type="TestFixture" name="from platyPS module" executed="True" result="Success" success="True" time="0.8896" asserts="0" description="from platyPS module">
+                <results>
+                  <test-case description="creates few help files for platyPS" name="New-MarkdownHelp.from platyPS module.creates few help files for platyPS" time="0.7549" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="from module" executed="True" result="Success" success="True" time="0.3773" asserts="0" description="from module">
+                <results>
+                  <test-case description="generates markdown files only for exported functions" name="New-MarkdownHelp.from module.generates markdown files only for exported functions" time="0.0239" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates markdown that includes CommonParameters in advanced functions" name="New-MarkdownHelp.from module.generates markdown that includes CommonParameters in advanced functions" time="0.0419" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates markdown that excludes CommonParameters from simple functions" name="New-MarkdownHelp.from module.generates markdown that excludes CommonParameters from simple functions" time="0.0262" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="from command" executed="True" result="Success" success="True" time="0.305" asserts="0" description="from command">
+                <results>
+                  <test-case description="creates 2 markdown files from command names" name="New-MarkdownHelp.from command.creates 2 markdown files from command names" time="0.195" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="from external script" executed="True" result="Success" success="True" time="0.2761" asserts="0" description="from external script">
+                <results>
+                  <test-case description="fully qualified path" name="New-MarkdownHelp.from external script.fully qualified path" time="0.0711" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="relative path" name="New-MarkdownHelp.from external script.relative path" time="0.0789" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="AlphabeticParamsOrder" executed="True" result="Success" success="True" time="0.2904" asserts="0" description="AlphabeticParamsOrder">
+                <results>
+                  <test-case description="uses alphabetic order when specified" name="New-MarkdownHelp.AlphabeticParamsOrder.uses alphabetic order when specified" time="0.1607" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="Online version link" executed="True" result="Success" success="True" time="0.6235" asserts="0" description="Online version link">
+                <results>
+                  <test-case description="generates passed online url 'https://github.com/PowerShell/platyPS'" name="New-MarkdownHelp.Online version link.generates passed online url 'https://github.com/PowerShell/platyPS'" time="0.2128" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates passed online url 'http://www.fabrikam.com/extension.html'" name="New-MarkdownHelp.Online version link.generates passed online url 'http://www.fabrikam.com/extension.html'" time="0.1571" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates passed online url ''" name="New-MarkdownHelp.Online version link.generates passed online url ''" time="0.1459" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="Generates well-known stub descriptions for parameters" executed="True" result="Success" success="True" time="0.4764" asserts="0" description="Generates well-known stub descriptions for parameters">
+                <results>
+                  <test-case description="generates well-known stub descriptions for -WhatIf" name="New-MarkdownHelp.Generates well-known stub descriptions for parameters.generates well-known stub descriptions for -WhatIf" time="0.0164" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates well-known stub descriptions for -Confirm" name="New-MarkdownHelp.Generates well-known stub descriptions for parameters.generates well-known stub descriptions for -Confirm" time="0.0333" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates well-known stub descriptions for -IncludeTotalCount" name="New-MarkdownHelp.Generates well-known stub descriptions for parameters.generates well-known stub descriptions for -IncludeTotalCount" time="0.0191" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates well-known stub descriptions for -Skip" name="New-MarkdownHelp.Generates well-known stub descriptions for parameters.generates well-known stub descriptions for -Skip" time="0.0204" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates well-known stub descriptions for -First" name="New-MarkdownHelp.Generates well-known stub descriptions for parameters.generates well-known stub descriptions for -First" time="0.0181" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates well-known stub descriptions for -Foo" name="New-MarkdownHelp.Generates well-known stub descriptions for parameters.generates well-known stub descriptions for -Foo" time="0.0279" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="Generated markdown features: comment-based help" executed="True" result="Success" success="True" time="0.3471" asserts="0" description="Generated markdown features: comment-based help">
+                <results>
+                  <test-case description="generates markdown with correct parameter set names" name="New-MarkdownHelp.Generated markdown features: comment-based help.generates markdown with correct parameter set names" time="0.0518" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates markdown with correct synopsis" name="New-MarkdownHelp.Generated markdown features: comment-based help.generates markdown with correct synopsis" time="0.0134" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates markdown with correct help description specified by HelpMessage attribute" name="New-MarkdownHelp.Generated markdown features: comment-based help.generates markdown with correct help description specified by HelpMessage attribute" time="0.0287" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates markdown with correct help description specified by comment-based help" name="New-MarkdownHelp.Generated markdown features: comment-based help.generates markdown with correct help description specified by comment-based help" time="0.0283" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates markdown with placeholder for parameter with no description" name="New-MarkdownHelp.Generated markdown features: comment-based help.generates markdown with placeholder for parameter with no description" time="0.029" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="Generated markdown features: no comment-based help" executed="True" result="Success" success="True" time="0.2342" asserts="0" description="Generated markdown features: no comment-based help">
+                <results>
+                  <test-case description="generates markdown with correct synopsis placeholder" name="New-MarkdownHelp.Generated markdown features: no comment-based help.generates markdown with correct synopsis placeholder" time="0.034" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates markdown with correct help description specified by HelpMessage attribute" name="New-MarkdownHelp.Generated markdown features: no comment-based help.generates markdown with correct help description specified by HelpMessage attribute" time="0.021" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates markdown with placeholder for parameter with no description" name="New-MarkdownHelp.Generated markdown features: no comment-based help.generates markdown with placeholder for parameter with no description" time="0.0069" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="Dynamic parameters" executed="True" result="Success" success="True" time="0.3495" asserts="0" description="Dynamic parameters">
+                <results>
+                  <test-case description="generates DynamicParameter" name="New-MarkdownHelp.Dynamic parameters.generates DynamicParameter" time="0.2297" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="Module Landing Page" executed="True" result="Success" success="True" time="2.6889" asserts="0" description="Module Landing Page">
+                <results>
+                  <test-case description="generates a landing page from Module" name="New-MarkdownHelp.Module Landing Page.generates a landing page from Module" time="0.7463" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generates a landing page from MAML" name="New-MarkdownHelp.Module Landing Page.generates a landing page from MAML" time="0.9921" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="generate a landing page from Module with parameter ModulePagePath" name="New-MarkdownHelp.Module Landing Page.generate a landing page from Module with parameter ModulePagePath" time="0.8002" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="Full Type Name" executed="True" result="Success" success="True" time="0.3129" asserts="0" description="Full Type Name">
+                <results>
+                  <test-case description="use full type name when specified" name="New-MarkdownHelp.Full Type Name.use full type name when specified" time="0.108" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="not use full type name when specified" name="New-MarkdownHelp.Full Type Name.not use full type name when specified" time="0.076" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="DontShow parameter" executed="True" result="Ignored" success="True" time="1.7844" asserts="0" description="DontShow parameter">
+                <results>
+                  <test-suite type="TestFixture" name="New-MarkdownHelp with -ExcludeDontShow" executed="True" result="Ignored" success="True" time="0.1944" asserts="0" description="New-MarkdownHelp with -ExcludeDontShow">
+                    <results>
+                      <test-case description="includes ShowAll" name="New-MarkdownHelp.DontShow parameter.New-MarkdownHelp with -ExcludeDontShow.includes ShowAll" time="0.0229" asserts="0" success="True" result="Success" executed="True" />
+                      <test-case description="excludes DontShowAll" name="New-MarkdownHelp.DontShow parameter.New-MarkdownHelp with -ExcludeDontShow.excludes DontShowAll" time="0.0241" asserts="0" success="True" result="Success" executed="True" />
+                      <test-case description="includes DontShowSet1 excludes Set1" name="New-MarkdownHelp.DontShow parameter.New-MarkdownHelp with -ExcludeDontShow.includes DontShowSet1 excludes Set1" time="0" asserts="0" success="True" result="Ignored" executed="False" />
+                      <test-case description="excludes DontShowSetAll includes Set2" name="New-MarkdownHelp.DontShow parameter.New-MarkdownHelp with -ExcludeDontShow.excludes DontShowSetAll includes Set2" time="0.0398" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="Update-MarkdownHelp with -ExcludeDontShow" executed="True" result="Ignored" success="True" time="0.1638" asserts="0" description="Update-MarkdownHelp with -ExcludeDontShow">
+                    <results>
+                      <test-case description="includes ShowAll" name="New-MarkdownHelp.DontShow parameter.Update-MarkdownHelp with -ExcludeDontShow.includes ShowAll" time="0.0133" asserts="0" success="True" result="Success" executed="True" />
+                      <test-case description="excludes DontShowAll" name="New-MarkdownHelp.DontShow parameter.Update-MarkdownHelp with -ExcludeDontShow.excludes DontShowAll" time="0.0136" asserts="0" success="True" result="Success" executed="True" />
+                      <test-case description="includes DontShowSet1 excludes Set1" name="New-MarkdownHelp.DontShow parameter.Update-MarkdownHelp with -ExcludeDontShow.includes DontShowSet1 excludes Set1" time="0" asserts="0" success="True" result="Ignored" executed="False" />
+                      <test-case description="excludes DontShowSetAll includes Set2" name="New-MarkdownHelp.DontShow parameter.Update-MarkdownHelp with -ExcludeDontShow.excludes DontShowSetAll includes Set2" time="0.0169" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="SupportsWildCards attribute tests" executed="True" result="Success" success="True" time="0.3788" asserts="0" description="SupportsWildCards attribute tests">
+                    <results>
+                      <test-case description="sets accepts wildcards property on parameters as expected" name="New-MarkdownHelp.DontShow parameter.SupportsWildCards attribute tests.sets accepts wildcards property on parameters as expected" time="0.0531" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="External help file metadata" executed="True" result="Success" success="True" time="0.2452" asserts="0" description="External help file metadata">
+                    <results>
+                      <test-case description="checks the external help file metadata is correct for nested module" name="New-MarkdownHelp.DontShow parameter.External help file metadata.checks the external help file metadata is correct for nested module" time="0.0318" asserts="0" success="True" result="Success" executed="True" />
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="New-ExternalHelp" executed="True" result="Success" success="True" time="0.4883" asserts="0" description="New-ExternalHelp">
+            <results>
+              <test-case description="generates right order for syntax" name="New-ExternalHelp.generates right order for syntax" time="0.0413" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="checks that xmlns 'http://msh' is present" name="New-ExternalHelp.checks that xmlns 'http://msh' is present" time="0.0163" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="checks that external help can be generated for modules with dash in it" name="New-ExternalHelp.checks that external help can be generated for modules with dash in it" time="0.0159" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="New-ExternalHelp -ErrorLogFile" executed="True" result="Success" success="True" time="0.2843" asserts="0" description="New-ExternalHelp -ErrorLogFile">
+            <results>
+              <test-case description="generates error log file" name="New-ExternalHelp -ErrorLogFile.generates error log file" time="0.0264" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="New-ExternalHelp -ApplicableTag for cmdlet level" executed="True" result="Success" success="True" time="0.6471" asserts="0" description="New-ExternalHelp -ApplicableTag for cmdlet level">
+            <results>
+              <test-case description="ignores cmdlet when applicable tag doesn't match" name="New-ExternalHelp -ApplicableTag for cmdlet level.ignores cmdlet when applicable tag doesn't match" time="0.5503" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="New-ExternalHelp -ApplicableTag for parameters level" executed="True" result="Success" success="True" time="0.2293" asserts="0" description="New-ExternalHelp -ApplicableTag for parameters level">
+            <results>
+              <test-case description="ignores parameters when applicable tag doesn't match" name="New-ExternalHelp -ApplicableTag for parameters level.ignores parameters when applicable tag doesn't match" time="0.1547" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="New-ExternalHelpCab" executed="True" result="Success" success="True" time="1.3597" asserts="0" description="New-ExternalHelpCab">
+            <results>
+              <test-suite type="TestFixture" name="MakeCab.exe" executed="True" result="Success" success="True" time="0.1092" asserts="0" description="MakeCab.exe">
+                <results>
+                  <test-case description="Validates that MakeCab.exe &amp; Expand.exe exists" name="New-ExternalHelpCab.MakeCab.exe.Validates that MakeCab.exe &amp; Expand.exe exists" time="0.0186" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="New-ExternalHelpCab function, External Help &amp; HelpInfo" executed="True" result="Success" success="True" time="1.1381" asserts="0" description="New-ExternalHelpCab function, External Help &amp; HelpInfo">
+                <results>
+                  <test-case description="validates the output of Cab creation" name="New-ExternalHelpCab.New-ExternalHelpCab function, External Help &amp; HelpInfo.validates the output of Cab creation" time="0.6337" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Creates a help info file" name="New-ExternalHelpCab.New-ExternalHelpCab function, External Help &amp; HelpInfo.Creates a help info file" time="0.0219" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="validates the version is incremented when the switch is used" name="New-ExternalHelpCab.New-ExternalHelpCab function, External Help &amp; HelpInfo.validates the version is incremented when the switch is used" time="0.1837" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Adds another help locale" name="New-ExternalHelpCab.New-ExternalHelpCab function, External Help &amp; HelpInfo.Adds another help locale" time="0.1878" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="Update-MarkdownHelp -LogPath" executed="True" result="Success" success="True" time="0.7892" asserts="0" description="Update-MarkdownHelp -LogPath">
+            <results>
+              <test-case description="checks the log exists" name="Update-MarkdownHelp -LogPath.checks the log exists" time="0.6918" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="Get-MarkdownMetadata" executed="True" result="Success" success="True" time="0.2193" asserts="0" description="Get-MarkdownMetadata">
+            <results>
+              <test-suite type="TestFixture" name="Simple markdown file" executed="True" result="Success" success="True" time="0.1407" asserts="0" description="Simple markdown file">
+                <results>
+                  <test-case description="can parse out yaml snippet" name="Get-MarkdownMetadata.Simple markdown file.can parse out yaml snippet" time="0.018" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="Update-MarkdownHelp with New-MarkdownHelp inlined functionality" executed="True" result="Success" success="True" time="5.4881" asserts="0" description="Update-MarkdownHelp with New-MarkdownHelp inlined functionality">
+            <results>
+              <test-case description="creates markdown in the first place" name="Update-MarkdownHelp with New-MarkdownHelp inlined functionality.creates markdown in the first place" time="0.0154" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="updates markdown and creates removed files again" name="Update-MarkdownHelp with New-MarkdownHelp inlined functionality.updates markdown and creates removed files again" time="1.2122" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="remove platyPS.md and make sure its gone" name="Update-MarkdownHelp with New-MarkdownHelp inlined functionality.remove platyPS.md and make sure its gone" time="0.0502" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="update MarkdownHelpFile with -RefreshModulePage" name="Update-MarkdownHelp with New-MarkdownHelp inlined functionality.update MarkdownHelpFile with -RefreshModulePage" time="1.7445" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="update MarkdownHelpFile with -RefreshModulePage with parameter ModulePagePath" name="Update-MarkdownHelp with New-MarkdownHelp inlined functionality.update MarkdownHelpFile with -RefreshModulePage with parameter ModulePagePath" time="1.6028" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="Update-MarkdownHelp reflection scenario" executed="True" result="Success" success="True" time="3.556" asserts="0" description="Update-MarkdownHelp reflection scenario">
+            <results>
+              <test-case description="produces original stub" name="Update-MarkdownHelp reflection scenario.produces original stub" time="0.0131" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="produce a dummy example" name="Update-MarkdownHelp reflection scenario.produce a dummy example" time="0.0133" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="can update stub" name="Update-MarkdownHelp reflection scenario.can update stub" time="0.0164" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="upgrades stub" name="Update-MarkdownHelp reflection scenario.upgrades stub" time="0.015" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="has both parameters" name="Update-MarkdownHelp reflection scenario.has both parameters" time="0.0136" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="preserves hyperlinks" name="Update-MarkdownHelp reflection scenario.preserves hyperlinks" time="0.0152" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="has updated description for Foo" name="Update-MarkdownHelp reflection scenario.has updated description for Foo" time="0.0306" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="has a placeholder for example" name="Update-MarkdownHelp reflection scenario.has a placeholder for example" time="0.017" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="Confirms that Update-MarkdownHelp correctly populates the Default Parameterset" name="Update-MarkdownHelp reflection scenario.Confirms that Update-MarkdownHelp correctly populates the Default Parameterset" time="2.826" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="parameter type should not be fullname" name="Update-MarkdownHelp reflection scenario.parameter type should not be fullname" time="0.0415" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="parameter type should be fullname" name="Update-MarkdownHelp reflection scenario.parameter type should be fullname" time="0.0205" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="all the other part should be the same except line with parameters" name="Update-MarkdownHelp reflection scenario.all the other part should be the same except line with parameters" time="0.0535" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="Update Markdown Help" executed="True" result="Success" success="True" time="0.3042" asserts="0" description="Update Markdown Help">
+            <results>
+              <test-case description="Verifies that a bad metadata value for the help file is fixed on update" name="Update Markdown Help.Verifies that a bad metadata value for the help file is fixed on update" time="0.0144" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="use a single spacing for ##  sections" name="Update Markdown Help.use a single spacing for ##  sections" time="0.0378" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="use a single spacing for ###  sections" name="Update Markdown Help.use a single spacing for ###  sections" time="0.0252" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="Create About Topic Markdown and Txt" executed="True" result="Success" success="True" time="0.6819" asserts="0" description="Create About Topic Markdown and Txt">
+            <results>
+              <test-case description="Checks the about topic is created with proper file name, and the content is correctly written" name="Create About Topic Markdown and Txt.Checks the about topic is created with proper file name, and the content is correctly written" time="0.0582" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="Checks the about topic is created with proper file name, and the content is correctly written - avoiding doubled about" name="Create About Topic Markdown and Txt.Checks the about topic is created with proper file name, and the content is correctly written - avoiding doubled about" time="0.0529" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="Can generate external help for a directly-specified &quot;about&quot; markdown file" name="Create About Topic Markdown and Txt.Can generate external help for a directly-specified &quot;about&quot; markdown file" time="0.1176" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="Can generate external help for a directly-specified &quot;about&quot; markdown file - avoiding doubled about_" name="Create About Topic Markdown and Txt.Can generate external help for a directly-specified &quot;about&quot; markdown file - avoiding doubled about_" time="0.1145" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="Takes constructed markdown about topics and converts them to text with proper character width" name="Create About Topic Markdown and Txt.Takes constructed markdown about topics and converts them to text with proper character width" time="0.1992" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="Adds a yaml block to the AboutTopic and verifies build as expected" name="Create About Topic Markdown and Txt.Adds a yaml block to the AboutTopic and verifies build as expected" time="0.0349" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="Merge-MarkdownHelp" executed="True" result="Success" success="True" time="2.1836" asserts="0" description="Merge-MarkdownHelp">
+            <results>
+              <test-suite type="TestFixture" name="single file, ignore examples" executed="True" result="Success" success="True" time="1.3426" asserts="0" description="single file, ignore examples">
+                <results>
+                  <test-case description="generates merged markdown with applicable tags" name="Merge-MarkdownHelp.single file, ignore examples.generates merged markdown with applicable tags" time="0.8437" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="two file" executed="True" result="Success" success="True" time="0.7671" asserts="0" description="two file">
+                <results>
+                  <test-case description="generates merged markdown with applicable tags" name="Merge-MarkdownHelp.two file.generates merged markdown with applicable tags" time="0.5412" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="New-YamlHelp" executed="True" result="Success" success="True" time="0.5212" asserts="0" description="New-YamlHelp">
+            <results>
+              <test-case description="serializes key properties correctly" name="New-YamlHelp.serializes key properties correctly" time="0.0257" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="throws for OutputFolder that is a file" name="New-YamlHelp.throws for OutputFolder that is a file" time="0.0269" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="does not omit # in output type names" name="New-YamlHelp.does not omit # in output type names" time="0.1613" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

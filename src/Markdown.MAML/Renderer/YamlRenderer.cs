@@ -12,7 +12,7 @@ namespace Markdown.MAML.Renderer
         public static string MamlModelToString(MamlCommand mamlCommand)
         {
             var serializer = new SerializerBuilder()
-                                .WithNamingConvention(new CamelCaseNamingConvention())
+                                .WithNamingConvention(CamelCaseNamingConvention.Instance)
                                 .Build();
 
             var model = new YamlCommand
